@@ -14,6 +14,32 @@ searchBar.addEventListener("keydown", function(event) {
 });
 
 const maxResult = 50;
+// this is filter menu stuff
+const filterButton = document.querySelector("#filterButton");
+const filterMenu = document.querySelector("#filterMenu");
+filterButton.onclick = function() {
+    if (filterMenu.style.display === "block") {
+        filterMenu.style.display = "none";
+    } 
+    else {
+        filterMenu.style.display = "block";
+    }
+};
+const filterOptions = document.querySelectorAll(".filterOption");
+filterOptions.forEach(function(option) {
+    option.onclick = function() {
+        const checkbox = option.querySelector(".checkbox");
+        if (checkbox.innerHTML === "☐") {
+            checkbox.innerHTML = "☑";
+        } 
+        else {
+            checkbox.innerHTML = "☐";
+        }
+
+    };
+
+});
+//end of filter menu stuff
 
 async function searchThirdSpaces() {
     const searchText = searchBar.value.trim();

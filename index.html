@@ -17,7 +17,17 @@
         <h3>Third Space Finder</h3>
         <input id = "searchBar" type="text" placeholder="Search for a third space...">
         <div class="headerButtons">
-            <a>Filter</a>
+            <div class="filterContainer">
+                <button id="filterButton">Filter</button>
+                <div id="filterMenu" class="filterMenu">
+                    <button class="filterOption" data-type="Museum"><span class="checkbox">☐</span>Museums</button>
+                    <button class="filterOption" data-type="Restaurant"><span class="checkbox">☐</span>Restaurants</button>
+                    <button class="filterOption" data-type="Pool"><span class="checkbox">☐</span> Pools</button>
+                    <button class="filterOption" data-type="Park"><span class="checkbox">☐</span>Parks</button>
+                    <button class="filterOption" data-type="Library"><span class="checkbox">☐</span>Libraries</button>
+                </div>
+            </div>
+        </div>
             <a>Map</a>
             <a>About Us</a>
         </div>
