@@ -1,7 +1,10 @@
 // yall pls do not vibe code we tryna follow the rules
 
 
+const slider = document.getElementById('slider');
+var maxResult = 50;
 
+const addressBar = document.getElementById('AddressDropdown');
 
 const searchBar = document.getElementById("searchBar");
 const homeContent = document.querySelector("#homeContent");
@@ -13,7 +16,10 @@ searchBar.addEventListener("keydown", function(event) {
     }
 });
 
-const maxResult = 50;
+slider.onInput = (event) => {
+    maxResult = slider.value;
+}
+
 // this is filter menu stuff
 const filterButton = document.querySelector("#filterButton");
 const filterMenu = document.querySelector("#filterMenu");
@@ -36,83 +42,76 @@ filterOptions.forEach(function(option) {
             checkbox.innerHTML = "☐";
         }
 
+        filterResults();
     };
-
 });
+
+async function locationFilter() {
+    const locationCoords = await fetch(encodeURIcomponent(addressBar.value)+"&api_key=6a7cc180091fc728489452mrq696e23");
+    
+}
+
+function filterResults() {
+    const resultCards = document.querySelectorAll(".resultCard");
+    let checkedTypes = [];
+    filterOptions.forEach(function(option) {
+        const checkbox = option.querySelector(".checkbox");
+        if (checkbox && checkbox.innerHTML === "☑") {
+            checkedTypes.push(option.dataset.type);
+        }
+    });
+    resultCards.forEach(function(card) {
+        if (checkedTypes.length === 0) {
+            card.style.display = "block";
+        } else {
+            card.style.display = "none";
+            checkedTypes.forEach(function(type) {
+                if (card.innerText.includes("Type: " + type)) {
+                    card.style.display = "block";
+                }
+            });
+        }
+    });
+}
 //end of filter menu stuff
+
+async function consolidatesearch(apitype, queryinpt, typeName, typeField) {
+    const response = await fetch(apitype + queryinpt);
+    const types = await response.json();
+    let returnArray = [];
+
+    types.forEach(function(type) {
+        const address = type.address ||
+            [type.building, type.street].filter(Boolean).join(' ') ||
+            type.location || type.adress1 || "No address available";
+
+        returnArray.push(`<div class="resultCard"> 
+            <h3>${type[typeField] || "Unnamed Location"}</h3>
+            <p>Type: ${typeName}</p>
+            <p>Location: ${address}</p>
+        </div>`);
+    });
+    return returnArray.join('');
+}
 
 async function searchThirdSpaces() {
     const searchText = searchBar.value.trim();
     let query;
 
     if (searchText === "") {
-        query = "?$limit=50";
-    } else {
-        query = "?$q=" + searchText;
+        query = "?$limit=" + Math.floor(maxResult/5);
+    } 
+    else {
+        query = encodeURIcomponent(searchText) + "&$limit=3";
     }
 
     homeContent.style.display = "none"; //hides the home page  
     searchResults.style.display = "block"; //shows search results page
-    searchResults.innerHTML = "";
+    searchResults.innerHTML = "";  
 
-    //Parks
-    const parkResponse = await fetch(parkAPI + query);
-    const parks = await parkResponse.json();
-    parks.forEach(function(park) {
-        const address = park.address || [park.building, park.street].filter(Boolean).join(' ') || "No address available";
-        searchResults.innerHTML += `<div class="resultCard"> 
-            <h3>${park.signname || "Unnamed Park"}</h3>
-            <p>Type: Park</p>
-            <p>Address: ${address}</p>
-        </div>`;
-    });
-
-
-    //Pools
-    const poolResponse = await fetch(poolAPI + query);
-    const pools = await poolResponse.json();
-    pools.forEach(function(pool) {
-        const address = pool.address || [pool.building, pool.street].filter(Boolean).join(' ') || "No address available";
-        searchResults.innerHTML += `<div class="resultCard"> 
-            <h3>${pool.name || "Unnamed Pool"}</h3>
-            <p>Type: Pool</p>
-            <p>Address: ${address}</p>
-        </div>`;
-    });
-
-    //Museums
-    const museumResponse = await fetch(museumAPI + query);
-    const museums = await museumResponse.json();
-    museums.forEach(function(museum) {
-        const address = museum.address || [museum.building, museum.street].filter(Boolean).join(' ') || "No address available";
-        searchResults.innerHTML += `<div class="resultCard"> 
-            <h3>${museum.name || "Unnamed Museum"}</h3>
-            <p>Type: Museum</p>
-            <p>Address: ${address}</p>
-        </div>`;
-    });
-
-    //Restaurants
-    const restaurantResponse = await fetch(restaurantAPI + query);
-    const restaurants = await restaurantResponse.json();
-    restaurants.forEach(function(restaurant) {
-        const address = restaurant.address || [restaurant.building, restaurant.street].filter(Boolean).join(' ') || "No address available";
-        searchResults.innerHTML += `<div class="resultCard"> 
-            <h3>${restaurant.dba || "Unnamed Restaurant"}</h3>
-            <p>Type: Restaurant</p>
-            <p>Address: ${address}</p>
-        </div>`;
-    });
-
-    //Libraries
-    const libraryResponse = await fetch(qplAPI + query);
-    const libraries = await libraryResponse.json();
-    libraries.forEach(function(library) {
-        const address = library.address || [library.building, library.street].filter(Boolean).join(' ') || "No address available";
-        searchResults.innerHTML += `<div class="resultCard"> 
-            <h3>${library.name || "Unnamed Library"}</h3>
-            <p>Type: Library</p>
-            <p>Address: ${address}</p>
-        </div>`;
-    });
+    searchResults.innerHTML += await consolidatesearch(parkAPI, query, "Park", "signname");
+    searchResults.innerHTML += await consolidatesearch(poolAPI, query, "Pool", "name");
+    searchResults.innerHTML += await consolidatesearch(museumAPI, query, "Museum", "name");
+    searchResults.innerHTML += await consolidatesearch(restaurantAPI, query, "Restaurant", "dba");
+    searchResults.innerHTML += await consolidatesearch(qplAPI, query, "Library", "name");
 }

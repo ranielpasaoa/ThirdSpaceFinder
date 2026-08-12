@@ -4,6 +4,10 @@ body {
     font-family: 'Courier New', Courier, monospace;
 }
 
+#searchResults {
+    display: none;
+}
+
 header {
     display: flex;
     justify-content: space-around;
@@ -166,4 +170,9 @@ main {
 
 .checkbox {
     font-size: 18px;
+}
+
+.homeButton {
+    color: black;
+    text-decoration: none;
 }

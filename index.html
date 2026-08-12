@@ -14,7 +14,7 @@
 
 <body>
     <header>
-        <h3>Third Space Finder</h3>
+        <h3> <a href = "index.html" class = "homeButton">Third Space Finder</a></h3>
         <input id = "searchBar" type="text" placeholder="Search for a third space...">
         <div class="headerButtons">
             <div class="filterContainer">
@@ -27,13 +27,17 @@
                     <button class="filterOption" data-type="Library"><span class="checkbox">☐</span>Libraries</button>
                 </div>
             </div>
-        </div>
-            <a>Map</a>
+                <div id = "AdressDropdown">
+                    <input id = "UserAddress" placeholder="Input Address for Nearby Third Spaces">
+                </div>
             <a>About Us</a>
         </div>
     </header>
     <main>
-        
+        <section id="searchResults">
+            <label>Amount of Results:</label>
+            <input id="slider" type="range" min="10" max="75" value="10">
+        </section>
          <div id = "homeContent">
         <div class="leftside">
             <!-- google maps api placeholder -->
@@ -52,8 +56,6 @@
             <a href="https://www.youtube.com" class="rcard"></a>
         </div>
         </div>
-        <section id = "searchResults">
-        </section>
     </main>
 </body>
 
