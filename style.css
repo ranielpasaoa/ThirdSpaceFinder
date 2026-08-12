@@ -1,3 +1,5 @@
+/* gng pls do not vibe code pls */
+
 body {
     font-family: 'Courier New', Courier, monospace;
 }
@@ -44,10 +46,12 @@ header a:hover {
 
 main {
     display: flex;
-    
+    flex-direction: column;
+    width: 100%;
 }
 
 .filterScroll {
+    width: 50%;
     display: flex;
     gap: 12px;
     overflow-x: auto;

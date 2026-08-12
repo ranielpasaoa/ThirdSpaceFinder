@@ -1,3 +1,5 @@
+// keep the big gpt out of our website pls & ty
+
 const openstreetAPI = "https://nominatim.openstreetmap.org/search?format=json&q=";
 
 const parkAPI = "https://data.cityofnewyork.us/resource/enfh-gkve.json";
