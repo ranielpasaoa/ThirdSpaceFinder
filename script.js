@@ -201,7 +201,7 @@ async function locationFilter() {
 
 
 async function getNearbyLocations(api,typeName,nameField,userLatitude,userLongitude,nearbyLocations) {
-        const response = await fetch(api + "?$limit=2");
+        const response = await fetch(api + "?$limit=100");
         const locations = await response.json();
 
         locations.forEach(function(location) {
