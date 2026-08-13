@@ -131,7 +131,7 @@ async function searchThirdSpaces() {
     if (searchText === "") {
         query = "?$limit=" + Math.floor(maxResult / 5);
     } else {
-        query = encodeURIComponent(searchText) + "&$limit=3";
+        query = '?$q=' + encodeURIComponent(searchText) + "&$limit=" + Math.floor(maxResult / 5);
     }
 
     homeContent.style.display = "none";
@@ -144,6 +144,10 @@ async function searchThirdSpaces() {
     searchResults.innerHTML += await consolidatesearch(restaurantAPI,query,"Restaurant","dba");
     searchResults.innerHTML += await consolidatesearch(qplAPI,query,"Library","name");
 }
+
+// ================
+// Nearby Locations
+// ================
 
 async function locationFilter() {
     const address = addressBar.value.trim();
@@ -195,8 +199,9 @@ async function locationFilter() {
         }
 }
 
+
 async function getNearbyLocations(api,typeName,nameField,userLatitude,userLongitude,nearbyLocations) {
-        const response = await fetch(api + "?$limit=500");
+        const response = await fetch(api + "?$limit=2");
         const locations = await response.json();
 
         locations.forEach(function(location) {
