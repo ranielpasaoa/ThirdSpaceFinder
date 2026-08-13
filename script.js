@@ -162,12 +162,6 @@ async function locationFilter() {
 
         const locationData = await locationResponse.json();
 
-        if (locationsToShow.length === 0) {
-            rightSide.innerHTML = `
-                <p>No nearby locations found.</p>
-            `;
-        }
-
         const userLatitude = parseFloat(locationData[0].lat);
         const userLongitude = parseFloat(locationData[0].lon);
 
