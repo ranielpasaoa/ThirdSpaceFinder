@@ -52,28 +52,50 @@ main {
     display: flex;
     flex-direction: column;
     width: 100%;
+    min-width: 0;
 }
 
-.filterScroll {
-    width: 50%;
+img {
+    display: block;
+    width: 500px;
+    max-width: 100%;
+    height: auto;
+    border-radius: 12px;
+    margin: 10px 0;
+}
+
+#homeContent {
     display: flex;
+    width: 100%;
+    gap: 50px;
+}
+
+.leftside {
+    flex: 2 1 0;
+    min-width: 0;
+}
+
+.rightside {
+    display: grid;
+    grid-template-columns: 200px 200px;
+    gap: 10px;
+    justify-content: start;
+    align-content: start;
+    flex: 1 1 0;
+    min-width: 0;
+}
+
+.cards.filterScroll {
+    border: solid black 2px;
+    border-radius: 12px;
+    width: 100%;
+    display: flex;
+    flex-flow: row nowrap;
     gap: 12px;
-    overflow-x: auto;
+    overflow-x: scroll;
     overflow-y: hidden;
     padding: 6px 2px 12px;
-    scroll-behavior: smooth;
-    scroll-snap-type: x proximity;
-    scrollbar-width: thin;
-    scrollbar-color: #2e2e2e #f1f1f1;
-}
-
-.filterScroll::-webkit-scrollbar {
-    height: 8px;
-}
-
-.filterScroll::-webkit-scrollbar-thumb {
-    background: #2e2e2e;
-    border-radius: 999px;
+    scrollbar-width: auto;
 }
 
 .filterScroll .card {
@@ -83,6 +105,7 @@ main {
 }
 
 .cards {
+    display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 12px;
     margin-top: 12px;
@@ -112,6 +135,16 @@ main {
     background-color: #f2f2f2;
     font-family: 'Courier New', Courier, monospace;
     cursor: pointer;
+}
+
+.rcard {
+    border: solid black 2px;
+    border-radius: 12px;
+    margin: 5px;
+    padding: 5px 20px;
+    width: 200px;
+    box-sizing: border-box;
+    margin: 0;
 }
 
 .filterMenu {
